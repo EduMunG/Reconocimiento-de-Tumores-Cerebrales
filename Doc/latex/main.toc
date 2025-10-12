@@ -1,6 +1,5 @@
 \babel@toc {spanish}{}\relax 
 \contentsline {chapter}{Resumen}{\es@scroman {i}}{chapter*.1}%
-\contentsline {chapter}{Abstract}{\es@scroman {ii}}{chapter*.2}%
 \contentsline {chapter}{\numberline {1}Introducción}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Antecedentes}{1}{section.1.1}%
 \contentsline {section}{\numberline {1.2}Estado del arte}{2}{section.1.2}%

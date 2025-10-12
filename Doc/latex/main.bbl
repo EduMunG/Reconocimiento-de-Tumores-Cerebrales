@@ -21,22 +21,12 @@
 \providecommand{\BIBdecl}{\relax}
 \BIBdecl
 
-\bibitem{rodriguez2022advances}
-S.~Rodriguez and K.~Lee, ``Advances in machine learning for climate change
-  predictions,'' in \emph{Proceedings of the 10th International Conference on
-  AI for Environment}.\hskip 1em plus 0.5em minus 0.4em\relax AI for Climate,
-  2022, pp. 101--110.
-
-\bibitem{garcia2024exploration}
-J.~Garcia and E.~Smith, \emph{Exploration of Quantum Algorithms in the 21st
-  Century}.\hskip 1em plus 0.5em minus 0.4em\relax Quantum Press, 2024.
-
-\bibitem{johnson2025impact}
-L.~Johnson, ``Impact of 3d printing on modern manufacturing,'' Ph.D.
-  dissertation, University of Advanced Technology, 2025.
-
-\bibitem{martinez2023future}
-A.~Martinez and L.~Wang, ``The future of renewable energy in urban settings,''
-  \emph{Journal of Sustainable Technologies}, vol.~15, no.~3, pp. 45--60, 2023.
+\bibitem{khan2024brain}
+\BIBentryALTinterwordspacing
+M.~A.-Z. Khan, N.~Innan, A.~A.~O. Galib, and M.~Bennai, ``Brain tumor diagnosis
+  using hybrid quantum convolutional neural networks,'' \emph{arXiv preprint
+  arXiv:2401.15804}, 2024. [Online]. Available:
+  \url{https://arxiv.org/pdf/2401.15804}
+\BIBentrySTDinterwordspacing
 
 \end{thebibliography}

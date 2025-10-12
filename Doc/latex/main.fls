@@ -188,13 +188,13 @@ INPUT C:\Users\yleob\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmmi6.tfm
 INPUT C:\Users\yleob\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmsy10.tfm
 INPUT C:\Users\yleob\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmsy8.tfm
 INPUT C:\Users\yleob\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmsy6.tfm
-INPUT .\src\images\CICATAalt.png
-INPUT .\src\images\CICATAalt.png
-INPUT .\src\images\CICATAalt.png
-INPUT .\src\images\CICATAalt.png
-INPUT .\src\images\CICATAalt.png
-INPUT .\src\images\CICATAalt.png
-INPUT .\src\images\CICATAalt.png
+INPUT .\src\images\escudoESCOM.png
+INPUT .\src\images\escudoESCOM.png
+INPUT .\src\images\escudoESCOM.png
+INPUT .\src\images\escudoESCOM.png
+INPUT .\src\images\escudoESCOM.png
+INPUT .\src\images\escudoESCOM.png
+INPUT .\src\images\escudoESCOM.png
 INPUT C:\Users\yleob\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ecrm2074.tfm
 INPUT C:\Users\yleob\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ecbx2074.tfm
 INPUT C:\Users\yleob\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ecrm1728.tfm
@@ -209,6 +209,7 @@ INPUT .\pre-text\abstract.tex
 INPUT pre-text\abstract.tex
 INPUT C:\Users\yleob\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ecrm2488.tfm
 INPUT C:\Users\yleob\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ecbx2488.tfm
+INPUT C:\Users\yleob\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ecti1200.tfm
 INPUT C:\Users\yleob\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ecbx1200.tfm
 INPUT C:\Users\yleob\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\eccc1200.tfm
 INPUT c:\Users\yleob\OneDrive - Instituto Politecnico Nacional\Documents\1. Leo\ESCOM\Semestre 8\TrabajoTerminal\Reconocimiento-de-Tumores-Cerebrales\Doc\latex\main.toc
@@ -264,7 +265,6 @@ INPUT Chapter4.tex
 INPUT c:\Users\yleob\OneDrive - Instituto Politecnico Nacional\Documents\1. Leo\ESCOM\Semestre 8\TrabajoTerminal\Reconocimiento-de-Tumores-Cerebrales\Doc\latex\main.bbl
 INPUT c:\Users\yleob\OneDrive - Instituto Politecnico Nacional\Documents\1. Leo\ESCOM\Semestre 8\TrabajoTerminal\Reconocimiento-de-Tumores-Cerebrales\Doc\latex\main.bbl
 INPUT c:\Users\yleob\OneDrive - Instituto Politecnico Nacional\Documents\1. Leo\ESCOM\Semestre 8\TrabajoTerminal\Reconocimiento-de-Tumores-Cerebrales\Doc\latex\main.bbl
-INPUT C:\Users\yleob\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ecti1200.tfm
 INPUT c:\Users\yleob\OneDrive - Instituto Politecnico Nacional\Documents\1. Leo\ESCOM\Semestre 8\TrabajoTerminal\Reconocimiento-de-Tumores-Cerebrales\Doc\latex\main.aux
 INPUT c:\Users\yleob\OneDrive - Instituto Politecnico Nacional\Documents\1. Leo\ESCOM\Semestre 8\TrabajoTerminal\Reconocimiento-de-Tumores-Cerebrales\Doc\latex\pre-text\abstract.aux
 INPUT c:\Users\yleob\OneDrive - Instituto Politecnico Nacional\Documents\1. Leo\ESCOM\Semestre 8\TrabajoTerminal\Reconocimiento-de-Tumores-Cerebrales\Doc\latex\pre-text\abstract.aux
@@ -283,8 +283,6 @@ INPUT c:\Users\yleob\OneDrive - Instituto Politecnico Nacional\Documents\1. Leo\
 INPUT c:\Users\yleob\OneDrive - Instituto Politecnico Nacional\Documents\1. Leo\ESCOM\Semestre 8\TrabajoTerminal\Reconocimiento-de-Tumores-Cerebrales\Doc\latex\Chapter4.aux
 INPUT c:\Users\yleob\OneDrive - Instituto Politecnico Nacional\Documents\1. Leo\ESCOM\Semestre 8\TrabajoTerminal\Reconocimiento-de-Tumores-Cerebrales\Doc\latex\main.out
 INPUT c:\Users\yleob\OneDrive - Instituto Politecnico Nacional\Documents\1. Leo\ESCOM\Semestre 8\TrabajoTerminal\Reconocimiento-de-Tumores-Cerebrales\Doc\latex\main.out
-INPUT C:\Users\yleob\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecti1200.pk
-INPUT C:\Users\yleob\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecti1200.pk
 INPUT C:\Users\yleob\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecsl1200.pk
 INPUT C:\Users\yleob\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecsl1200.pk
 INPUT C:\Users\yleob\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecxc1200.pk
@@ -293,6 +291,8 @@ INPUT C:\Users\yleob\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecc
 INPUT C:\Users\yleob\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\eccc1200.pk
 INPUT C:\Users\yleob\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx1200.pk
 INPUT C:\Users\yleob\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx1200.pk
+INPUT C:\Users\yleob\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecti1200.pk
+INPUT C:\Users\yleob\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecti1200.pk
 INPUT C:\Users\yleob\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx2488.pk
 INPUT C:\Users\yleob\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx2488.pk
 INPUT C:\Users\yleob\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1440.pk
