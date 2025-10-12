@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.7)  11 OCT 2025 17:45
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.3.7)  11 OCT 2025 18:21
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -376,7 +376,7 @@ Package hyperref Info: Link coloring ON on input line 4.
 \openout3 = `main.out'.
 
  (pre-text/cover.tex
-<src/images/logo_ipn.png, id=71, 807.015pt x 1160.335pt>
+<src/images/logo_ipn.png, id=67, 807.015pt x 1160.335pt>
 File: src/images/logo_ipn.png Graphic file (type png)
 <use src/images/logo_ipn.png>
 Package pdftex.def Info: src/images/logo_ipn.png  used on input line 6.
@@ -387,21 +387,19 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <8> on input line 7.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 7.
-<src/images/CICATAalt.png, id=73, 499.11469pt x 418.56375pt>
-File: src/images/CICATAalt.png Graphic file (type png)
-<use src/images/CICATAalt.png>
-Package pdftex.def Info: src/images/CICATAalt.png  used on input line 19.
-(pdftex.def)             Requested size: 91.78159pt x 76.96684pt.
+<src/images/escudoESCOM.png, id=69, 481.8pt x 367.3725pt>
+File: src/images/escudoESCOM.png Graphic file (type png)
+<use src/images/escudoESCOM.png>
+Package pdftex.def Info: src/images/escudoESCOM.png  used on input line 18.
+(pdftex.def)             Requested size: 91.78159pt x 69.98087pt.
  [1
 
 
-{C:/Users/yleob/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map} <./src/images/logo_ipn.png> <./src/images/CICATAalt.png>])
+{C:/Users/yleob/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map} <./src/images/logo_ipn.png> <./src/images/escudoESCOM.png>])
 \openout2 = `pre-text/abstract.aux'.
 
  (pre-text/abstract.tex [1
 
-
-] [2
 
 ]) (c:\Users\yleob\OneDrive - Instituto Politecnico Nacional\Documents\1. Leo\ESCOM\Semestre 8\TrabajoTerminal\Reconocimiento-de-Tumores-Cerebrales\Doc\latex\main.toc
 LaTeX Info: Redefining \. on input line 1.
@@ -410,7 +408,7 @@ LaTeX Info: Redefining \% on input line 1.
 \tf@toc=\write4
 \openout4 = `main.toc'.
 
- [3
+ [2
 
 
 
@@ -421,7 +419,7 @@ LaTeX Info: Redefining \% on input line 1.
 \tf@lof=\write5
 \openout5 = `main.lof'.
 
- [4
+ [3
 
 ] (c:\Users\yleob\OneDrive - Instituto Politecnico Nacional\Documents\1. Leo\ESCOM\Semestre 8\TrabajoTerminal\Reconocimiento-de-Tumores-Cerebrales\Doc\latex\main.lot
 LaTeX Info: Redefining \. on input line 1.
@@ -430,14 +428,17 @@ LaTeX Info: Redefining \% on input line 1.
 \tf@lot=\write6
 \openout6 = `main.lot'.
 
- [5
+ [4
 
 ]
 \openout2 = `Chapter1.aux'.
 
  (Chapter1.tex
 Cap\'{\i }tulo 1.
-<src/images/cicata-alt-building.jpeg, id=136, 2055.68pt x 1232.605pt>
+
+LaTeX Warning: Citation `rodriguez2022advances' on page 1 undefined on input line 3.
+
+<src/images/cicata-alt-building.jpeg, id=129, 2055.68pt x 1232.605pt>
 File: src/images/cicata-alt-building.jpeg Graphic file (type jpg)
 <use src/images/cicata-alt-building.jpeg>
 Package pdftex.def Info: src/images/cicata-alt-building.jpeg  used on input line 9.
@@ -454,9 +455,12 @@ l.13
 LaTeX Info: Redefining \. on input line 16.
 LaTeX Info: Redefining \% on input line 16.
  [2 <./src/images/cicata-alt-building.jpeg>] (src/tables/cicatas.tex)
+
+LaTeX Warning: Citation `garcia2024exploration' on page 3 undefined on input line 20.
+
 LaTeX Info: Redefining \. on input line 25.
 LaTeX Info: Redefining \% on input line 25.
- [3])
+[3])
 LaTeX Info: Redefining \. on input line 15.
 LaTeX Info: Redefining \% on input line 15.
  [4]
@@ -469,7 +473,11 @@ Cap\'{\i }tulo 2.
 
 
 
-])
+]
+
+LaTeX Warning: Citation `johnson2025impact' on page 6 undefined on input line 8.
+
+)
 LaTeX Info: Redefining \. on input line 16.
 LaTeX Info: Redefining \% on input line 16.
  [6]
@@ -485,7 +493,11 @@ Cap\'{\i }tulo 3.
 
 
 
-])
+]
+
+LaTeX Warning: Citation `martinez2023future' on page 9 undefined on input line 9.
+
+)
 LaTeX Info: Redefining \. on input line 17.
 LaTeX Info: Redefining \% on input line 17.
  [9]
@@ -510,21 +522,25 @@ LaTeX Info: Redefining \% on input line 11.
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
+
+
+LaTeX Warning: There were undefined references.
+
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 2CE8500EA8511616C1E9E8040542BE57;1880.
+(rerunfilecheck)             Checksum: 9FE1FD8A46FB40BE5980DF7CAEF7455A;1795.
  ) 
 Here is how much of TeX's memory you used:
- 11491 strings out of 474486
- 195883 string characters out of 5743756
+ 11482 strings out of 474486
+ 195720 string characters out of 5743756
  1933542 words of memory out of 5000000
- 33520 multiletter control sequences out of 15000+600000
+ 33516 multiletter control sequences out of 15000+600000
  570624 words of font info for 58 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,9n,96p,450b,486s stack positions out of 10000i,1000n,20000p,200000b,200000s
- <C:\Users\yleob\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1200.pk> <C:\Users\yleob\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecsl1200.pk> <C:\Users\yleob\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecxc1200.pk> <C:\Users\yleob\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\eccc1200.pk> <C:\Users\yleob\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\yleob\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2488.pk> <C:\Users\yleob\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1440.pk> <C:\Users\yleob\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1728.pk> <C:\Users\yleob\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2074.pk> <C:\Users\yleob\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk>
-Output written on "c:\Users\yleob\OneDrive - Instituto Politecnico Nacional\Documents\1. Leo\ESCOM\Semestre 8\TrabajoTerminal\Reconocimiento-de-Tumores-Cerebrales\Doc\latex\main.pdf" (17 pages, 646562 bytes).
+ 84i,9n,96p,1097b,486s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\yleob\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecsl1200.pk> <C:\Users\yleob\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecxc1200.pk> <C:\Users\yleob\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\eccc1200.pk> <C:\Users\yleob\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\yleob\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1200.pk> <C:\Users\yleob\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2488.pk> <C:\Users\yleob\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1440.pk> <C:\Users\yleob\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1728.pk> <C:\Users\yleob\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2074.pk> <C:\Users\yleob\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk>
+Output written on "c:\Users\yleob\OneDrive - Instituto Politecnico Nacional\Documents\1. Leo\ESCOM\Semestre 8\TrabajoTerminal\Reconocimiento-de-Tumores-Cerebrales\Doc\latex\main.pdf" (16 pages, 651371 bytes).
 PDF statistics:
- 537 PDF objects out of 1000 (max. 8388607)
- 47 named destinations out of 1000 (max. 500000)
- 152 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 528 PDF objects out of 1000 (max. 8388607)
+ 42 named destinations out of 1000 (max. 500000)
+ 144 words of extra memory for PDF output out of 10000 (max. 10000000)
 
