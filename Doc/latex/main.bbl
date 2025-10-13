@@ -131,4 +131,9 @@ K.~Nakaji, S.~Uno, Y.~Suzuki, R.~Raymond, T.~Onodera, T.~Tanaka, H.~Tezuka,
   indicators,'' \emph{Physical Review Research}, vol.~4, no.~2, p. 023136,
   2022.
 
+\bibitem{cheng2017brain}
+J.~Cheng, ``Brain tumor dataset,''
+  \url{https://doi.org/10.6084/m9.figshare.1512427.v5}, 2017, figshare.
+  Dataset.
+
 \end{thebibliography}
