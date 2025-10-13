@@ -1,4 +1,4 @@
 .DS_Store
 Proyecto/Dataset/
-Doc/latex/
+Doc/latex/*
 !Doc/latex/main.pdf
