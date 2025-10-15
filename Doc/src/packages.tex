@@ -1,0 +1,90 @@
+%----------------------------------------------------------------------------------------
+% PAQUETES Y CONFIGURACIÓN DEL DOCUMENTO
+%----------------------------------------------------------------------------------------
+
+
+% CODIFICACIÓN Y LENGUAJE
+%------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-nodecimaldot,es-tabla]{babel} % Idioma del docuemnto: Español
+
+% FUENTES
+%------------------------------------------------
+% Requiere compilador XeLaTeX o LuaLaTeX
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+
+% DISEÑO DE PÁGINA (MÁRGENES Y ESPACIADO)
+%------------------------------------------------
+\usepackage[left=3cm,right=3cm,top=3cm,bottom=3cm]{geometry}
+\usepackage{setspace} % Permite usar \singlespacing, \doublespacing
+\setlength{\parskip}{5pt}  % Espacio entre párrafos
+\setlength{\parindent}{0pt} % Sin sangría al inicio del párrafo
+
+% TAMAÑO DE FUENTE PREDETERMINADO
+%------------------------------------------------
+% Define el tamaño de la fuente para el texto normal.
+% Nota: El documento está configurado a 12pt, pero el texto normal se ha ajustado a 10pt.
+\renewcommand{\normalsize}{\fontsize{10pt}{12pt}\selectfont}
+
+% GRÁFICOS E IMÁGENES
+%------------------------------------------------
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{rotfloat} % Para figuras y tablas rotadas
+
+% TABLAS
+%------------------------------------------------
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{ltablex} % Combina longtable y tabularx para tablas que ocupan varias páginas
+\usepackage{booktabs} % Líneas de tabla más estéticas
+\keepXColumns% Mantiene el ancho de las columnas en tablas ltablex
+
+% COLORES
+%------------------------------------------------
+\usepackage{xcolor}
+\usepackage{colortbl} % Para sombreado en tablas
+\definecolor{gray30}{gray}{0.8} % Gris con 80% de opacidad
+
+% FORMATO DE TEXTO Y PÁRRAFOS
+%------------------------------------------------
+\usepackage{ragged2e} % Para justificación de texto
+
+% TÍTULOS DE SECCIÓN
+%------------------------------------------------
+\usepackage{titlesec}
+\titleformat{\section}{\large\bfseries}{\thesection.}{.2em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection.}{.2em}{}
+
+% LEYENDAS (CAPTIONS)
+%------------------------------------------------
+\usepackage{caption}
+
+% ENLACES Y URLs
+%------------------------------------------------
+\usepackage{url}
+\urlstyle{same}
+\usepackage{hyperref}
+\hypersetup{
+   colorlinks=true,
+   urlcolor=blue,
+   linkcolor=black,
+   citecolor=black,
+   filecolor=magenta,
+   pdftitle={Sharelatex Example},
+   pdfpagemode=FullScreen,
+}
+
+% OTROS PAQUETES
+
+%------------------------------------------------
+
+\usepackage{multicol}
+
+\usepackage{lipsum}
+
+\usepackage[most]{tcolorbox} 
+
+\tcbset{on line, box align=top, colback=gray!20, colframe=black, fonttitle=\bfseries, sharp corners}
