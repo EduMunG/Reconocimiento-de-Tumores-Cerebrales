@@ -2,3 +2,5 @@
 Proyecto/Dataset/
 Doc/latex/*
 !Doc/latex/main.pdf
+conteo.py
+diagnostico.py
