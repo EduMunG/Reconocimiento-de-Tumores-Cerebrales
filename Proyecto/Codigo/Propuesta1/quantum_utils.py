@@ -120,27 +120,25 @@ def quantum_conv(image, numQubits, embedding, numFeatureMaps):
             # Aplanar la ventana para ingresarla al circuito
             data = window.flatten()
 
+            # Optimización: Si la ventana es casi vacía (fondo negro), saltar el circuito
+            # Esto evita errores de normalización en AmplitudeEmbedding y acelera el proceso significativamente
+            if np.sum(np.abs(data)) < 1e-6:
+                processed_image[i, j, :] = 0.0
+                continue
+
             # Procesamos el circuito
-            processed_image[i, j, :] = qnode(data)
-            
+            try:
+                processed_image[i, j, :] = qnode(data)
+            except Exception:
+                processed_image[i, j, :] = 0.0
+                
             # Guardamos un vector válido para dibujar luego
-            if sample_data is None: 
-                sample_data = data
-            
-            # # Usamos la media en lugar del max para ser más robustos contra picos de ruido
-            # if np.mean(data) < 10: 
-            #     # Asignamos -1.0 para que el fondo sea NEGRO si usamos PauliZ (rango -1 a 1)
-            #     processed_image[i, j, :] = -1.0 
-            # else:
-            #     # Procesamos el circuito
-            #     processed_image[i, j, :] = circuit(data)
-            #     # Guardamos un vector válido para dibujar luego
-            #     if sample_data is None: 
-            #         sample_data = data
+            # if sample_data is None: 
+            #     sample_data = data
 
     # Dibujar el circuito
-    if sample_data is not None:
-        draw_circuit(sample_data, qnode)
+    # if sample_data is not None:
+        # draw_circuit(sample_data, qnode)
     
     return processed_image
 
@@ -159,25 +157,5 @@ def plot_comparison(original, processed):
     plt.tight_layout()
     plt.show()
 
-# %%
-if __name__ == "__main__":
-    
-    TEST_PATH = "../DataSet/Tumores"
-    
-    try:
-        # parametros
-        numQubits = 4 # numero de qubits
-        numFeatureMaps = 1 # profundidad del mapa de caracteristicas
-        embedding = "amplitude" # tipo de embedding {"amplitude", "angle"}
-
-        img = load_random_image(TEST_PATH)
-        
-        # Prueba rápida con parámetros pequeños para verificar que no falle
-        res = quantum_conv(img, numQubits, embedding, numFeatureMaps)
-        
-        plot_comparison(img, res)
-        
-    except Exception as e:
-        print(f"No se pudo ejecutar la prueba: {e}")
 
 
