@@ -1,0 +1,16 @@
+{
+    // Especifica el archivo raíz del proyecto LaTeX.
+    
+    // Define las "recetas" de compilación disponibles.
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "xelatexmk",
+            "tools": [
+                "xelatexmk"
+            ]
+        }
+    ],
+    
+    // Establece la receta por defecto para que use 'xelatexmk'.
+    "latex-workshop.latex.recipe.default": "xelatexmk",
+}
