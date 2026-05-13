@@ -40,30 +40,40 @@ class RedNeuronalGeneral(nn.Module):
 class QuantumProcessor:
     def __init__(self, n_qubits=2):
         self.n_qubits = n_qubits
-        self.dev = qml.device("default.qubit", wires=self.n_qubits)
-        self.qnode = qml.QNode(self._circuit, self.dev, interface="numpy")
+        self.dev = qml.device("default.qubit", wires=4) # Max wires needed is 4 for P1
+        self._qnode_cache = {}
+
+    def _get_qnode(self, n_qubits):
+        if n_qubits not in self._qnode_cache:
+            dev = qml.device("default.qubit", wires=n_qubits)
+            self._qnode_cache[n_qubits] = qml.QNode(self._circuit, dev, interface="numpy")
+        return self._qnode_cache[n_qubits]
 
     def _circuit(self, inputs):
+        n_qubits = int(_np.log2(len(inputs[0]))) if hasattr(inputs[0], "__len__") else int(_np.log2(len(inputs)))
+        # Handle cases where inputs is a flat vector or a batch
+        # PennyLane QNode handles batching automatically if configured correctly
+        
         # 1. Amplitude Encoding
-        qml.AmplitudeEmbedding(features=inputs, wires=range(self.n_qubits), normalize=True, pad_with=0.)
+        qml.AmplitudeEmbedding(features=inputs, wires=range(n_qubits), normalize=True, pad_with=0.)
         
         # 2. Fixed Rotations Layer
         phi = np.pi / 2 
-        for i in range(self.n_qubits):
+        for i in range(n_qubits):
             control = i
-            target = (i + 1) % self.n_qubits
+            target = (i + 1) % n_qubits
             qml.CRZ(phi, wires=[control, target])
             qml.CRX(phi, wires=[control, target])
 
         # 3. Entanglement Layer
-        for i in range(self.n_qubits):
+        for i in range(n_qubits):
             control = i
-            target = (i + 1) % self.n_qubits
+            target = (i + 1) % n_qubits
             qml.CZ(wires=[control, target])
 
         return qml.expval(qml.PauliZ(0))
 
-    def _preprocess_image_blocks(self, image, kernel_size=2, stride=2):
+    def _preprocess_image_blocks(self, image, kernel_size, stride):
         # Use sliding_window_view for flexible stride and kernel size
         windows = _np.lib.stride_tricks.sliding_window_view(image, (kernel_size, kernel_size))
         
@@ -76,7 +86,7 @@ class QuantumProcessor:
         
         return blocks, out_h, out_w
 
-    def _apply_quantum_conv(self, image, kernel_size=2, stride=2):
+    def _apply_quantum_conv(self, image, n_qubits, kernel_size, stride):
         blocks, out_h, out_w = self._preprocess_image_blocks(image, kernel_size, stride)
         
         # L2 Normalization per block (essential for Amplitude Embedding)
@@ -93,7 +103,8 @@ class QuantumProcessor:
             
         normalized_blocks = blocks / norms
         
-        results = self.qnode(normalized_blocks)
+        qnode = self._get_qnode(n_qubits)
+        results = qnode(normalized_blocks)
         return _np.array(results).reshape(out_h, out_w)
 
     def process(self, image, proposal_id, cache_dir):
@@ -106,16 +117,15 @@ class QuantumProcessor:
         
         # Processing logic per proposal
         if proposal_id == 1:
-            # P1: 128x128 output (stride=1 with edge padding)
-            padded_img = _np.pad(image, ((0, 1), (0, 1)), mode='edge')
-            result = self._apply_quantum_conv(padded_img, kernel_size=2, stride=1)
+            # P1: 32x32 output (4x4 kernel, stride 4, 4 qubits)
+            result = self._apply_quantum_conv(image, n_qubits=4, kernel_size=4, stride=4)
         elif proposal_id == 2:
-            # P2: 64x64 output (single layer stride=2)
-            result = self._apply_quantum_conv(image, kernel_size=2, stride=2)
+            # P2: 64x64 output (2x2 kernel, stride 2, 2 qubits)
+            result = self._apply_quantum_conv(image, n_qubits=2, kernel_size=2, stride=2)
         elif proposal_id == 3:
-            # P3: 32x32 output (two layers of stride=2)
-            res_l1 = self._apply_quantum_conv(image, kernel_size=2, stride=2)
-            result = self._apply_quantum_conv(res_l1, kernel_size=2, stride=2)
+            # P3: 32x32 output (two layers of 2x2 stride 2, 2 qubits)
+            res_l1 = self._apply_quantum_conv(image, n_qubits=2, kernel_size=2, stride=2)
+            result = self._apply_quantum_conv(res_l1, n_qubits=2, kernel_size=2, stride=2)
         else:
             raise ValueError(f"Unknown proposal_id: {proposal_id}")
             
@@ -124,3 +134,4 @@ class QuantumProcessor:
         _np.save(cache_path, result)
         
         return result
+

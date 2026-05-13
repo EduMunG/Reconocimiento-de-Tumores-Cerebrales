@@ -2,6 +2,7 @@ import pennylane as qml
 from pennylane import numpy as np
 import numpy as _np
 import time
+import matplotlib.pyplot as plt
 
 class QuantumDownsampler:
     """
@@ -16,6 +17,14 @@ class QuantumDownsampler:
         # Usamos interface='numpy' para ejecución rápida sin grafos de computación de Torch/TF
         # ya que esta capa actúa como extractor de características fijo (pre-procesamiento).
         self.qnode = qml.QNode(self._circuit, self.dev, interface="numpy")
+        self.drawn = False
+
+    def draw_circuit(self, inputs):
+        """Dibuja el circuito usando un vector de ejemplo."""
+        print("Generando diagrama del circuito cuántico...")
+        qml.drawer.use_style("black_white")
+        fig, ax = qml.draw_mpl(self.qnode)(inputs)
+        plt.show()
         
     def _circuit(self, inputs):
         """
@@ -93,6 +102,11 @@ class QuantumDownsampler:
                 
             normalized_blocks = blocks / norms
             
+            # Dibujar circuito si es la primera vez
+            if not self.drawn:
+                self.draw_circuit(normalized_blocks[0])
+                self.drawn = True
+
             # 3. Ejecución del Circuito (Batch)
             # PennyLane difunde (broadcasts) el input sobre el circuito
             results = self.qnode(normalized_blocks)

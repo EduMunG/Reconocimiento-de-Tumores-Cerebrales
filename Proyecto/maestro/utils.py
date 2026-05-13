@@ -3,7 +3,40 @@ import numpy as np
 import torch
 import matplotlib.pyplot as plt
 import seaborn as sns
+import time
+import psutil
 from sklearn.metrics import accuracy_score, f1_score, roc_auc_score, confusion_matrix
+
+
+class Profiler:
+    """
+    Clase para medir tiempos de ejecución y uso de recursos (RAM/GPU).
+    """
+    def __init__(self):
+        self.start_time = 0
+        self.epoch_times = []
+        self.image_processing_times = []
+
+    def start(self):
+        self.start_time = time.time()
+
+    def get_elapsed(self):
+        return time.time() - self.start_time
+
+    def get_memory_usage(self):
+        # RAM en GB
+        process = psutil.Process(os.getpid())
+        ram_gb = process.memory_info().rss / (1024 ** 3)
+
+        # GPU en MB (si aplica)
+        gpu_mb = 0
+        if torch.cuda.is_available():
+            gpu_mb = torch.cuda.memory_allocated() / (1024 ** 2)
+        elif torch.backends.mps.is_available():
+            # Nota: MPS no tiene una función directa de memoria asignada como CUDA todavía
+            gpu_mb = 0 
+
+        return ram_gb, gpu_mb
 
 
 def calculate_metrics(y_true, y_pred, y_probs):
@@ -26,7 +59,16 @@ def calculate_metrics(y_true, y_pred, y_probs):
 
     accuracy = accuracy_score(y_true, y_pred)
     f1_macro = f1_score(y_true, y_pred, average='macro')
-    auc = roc_auc_score(y_true, y_probs, multi_class='ovr')
+    
+    # Check if we have more than 1 class in y_true to calculate AUC
+    if len(np.unique(y_true)) > 1:
+        try:
+            auc = roc_auc_score(y_true, y_probs, multi_class='ovr')
+        except Exception:
+            auc = 0.0
+    else:
+        # For scenarios like LOOCV per fold, AUC is not definable per single sample
+        auc = 0.0
     
     return {
         'accuracy': accuracy,

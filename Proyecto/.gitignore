@@ -7,3 +7,13 @@ utilidades.py
 Codigo/Dataset_Balanceado_700/
 Codigo/Preprocesamiento_por_paciente/
 .worktrees/
+maestro/cache/
+maestro/resultados/
+__pycache__/
+*.npy
+*.npz
+*.mat
+*.pyc
+.DS_Store
+docs/
+imagenes/

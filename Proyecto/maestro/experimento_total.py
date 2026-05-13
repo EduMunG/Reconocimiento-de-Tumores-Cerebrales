@@ -24,11 +24,11 @@ except ImportError:
 try:
     from maestro.loader import BrainTumorDataset, load_unbalanced_data, load_balanced_data
     from maestro.modelos import RedNeuronalGeneral, QuantumProcessor
-    from maestro.utils import calculate_metrics, save_confusion_matrix
+    from maestro.utils import calculate_metrics, save_confusion_matrix, Profiler
 except ImportError:
     from loader import BrainTumorDataset, load_unbalanced_data, load_balanced_data
     from modelos import RedNeuronalGeneral, QuantumProcessor
-    from utils import calculate_metrics, save_confusion_matrix
+    from utils import calculate_metrics, save_confusion_matrix, Profiler
 
 # Configuración de rutas
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -58,6 +58,19 @@ def resize_image(img, size):
         img_pil = Image.fromarray(img)
         img_pil = img_pil.resize(size, resample=Image.Resampling.LANCZOS)
         return np.array(img_pil)
+
+def dataset_analysis(X, y, groups):
+    """
+    Realiza el análisis 'Antes': estadísticas del dataset.
+    """
+    unique_labels, counts = np.unique(y, return_counts=True)
+    n_patients = len(np.unique(groups))
+    print("\n--- ANÁLISIS DEL DATASET (Antes) ---")
+    print(f"Total de imágenes: {len(X)}")
+    print(f"Total de pacientes: {n_patients}")
+    for label, count in zip(unique_labels, counts):
+        print(f"Clase {label}: {count} imágenes")
+    return {"total_images": len(X), "total_patients": n_patients}
 
 def preprocess_dataset(X, model_type, qp):
     """
@@ -144,13 +157,21 @@ def run_experiment(model_type, data_scenario, params):
     else:
         X, y, groups = load_unbalanced_data(MAT_DIR)
         
+    dataset_stats = dataset_analysis(X, y, groups)
+    
     # 2. Preprocesamiento (incluyendo Quantum si aplica)
+    # Medir recursos durante preprocesamiento (Durante - Fase 1)
+    prep_profiler = Profiler()
+    prep_profiler.start()
+    
     qp = QuantumProcessor(n_qubits=2)
     X_p = preprocess_dataset(X, model_type, qp)
     
+    prep_time = prep_profiler.get_elapsed()
+    prep_ram, prep_gpu = prep_profiler.get_memory_usage()
+
     # 3. Definir Estrategia de Validación
     if data_scenario == 'unbalanced':
-        # Split simple por paciente (80/20)
         gkf = GroupKFold(n_splits=5)
         train_idx, test_idx = next(gkf.split(X_p, y, groups))
         splits = [(train_idx, test_idx)]
@@ -159,14 +180,33 @@ def run_experiment(model_type, data_scenario, params):
         splits = list(gkf.split(X_p, y, groups))
     elif data_scenario == 'balanced_loocv':
         logo = LeaveOneGroupOut()
-        # LOOCV puede ser muy lento, para propósitos de este script maestro, 
-        # si hay demasiados grupos, podríamos limitar o usar una muestra.
-        # Pero seguiremos la instrucción.
         splits = list(logo.split(X_p, y, groups))
+    elif data_scenario == 'balanced_holdout':
+        from sklearn.model_selection import GroupShuffleSplit
+        gss_test = GroupShuffleSplit(n_splits=1, test_size=0.15, random_state=42)
+        train_val_idx, test_idx = next(gss_test.split(X_p, y, groups))
+        gss_val = GroupShuffleSplit(n_splits=1, test_size=0.1765, random_state=42)
+        X_tmp, y_tmp, groups_tmp = X_p[train_val_idx], y[train_val_idx], groups[train_val_idx]
+        train_idx_sub, val_idx_sub = next(gss_val.split(X_tmp, y_tmp, groups_tmp))
+        train_idx = train_val_idx[train_idx_sub]
+        val_idx = train_val_idx[val_idx_sub]
+        splits = [(train_idx, val_idx, test_idx)]
     
     all_fold_metrics = []
     
-    for fold, (t_idx, v_idx) in enumerate(splits):
+    # Medir recursos durante entrenamiento (Durante - Fase 2)
+    train_profiler = Profiler()
+    train_profiler.start()
+
+    for fold, split_data in enumerate(splits):
+        if len(split_data) == 3:
+            t_idx, v_idx, test_idx = split_data
+            test_ds = BrainTumorDataset(X_p[test_idx], y[test_idx])
+            test_loader = DataLoader(test_ds, batch_size=32, shuffle=False)
+        else:
+            t_idx, v_idx = split_data
+            test_loader = None
+
         if len(splits) > 1:
             print(f"  Fold {fold+1}/{len(splits)}")
             
@@ -176,7 +216,7 @@ def run_experiment(model_type, data_scenario, params):
         train_ds = BrainTumorDataset(X_train, y_train)
         val_ds = BrainTumorDataset(X_val, y_val)
         
-        train_loader = DataLoader(train_ds, batch_size=32, shuffle=True)
+        train_loader = DataLoader(train_ds, batch_size=32, shuffle=True, drop_last=True)
         val_loader = DataLoader(val_ds, batch_size=32, shuffle=False)
         
         # Inicializar Modelo
@@ -188,68 +228,79 @@ def run_experiment(model_type, data_scenario, params):
         optimizer = optim.Adam(model.parameters(), lr=params['lr'])
         criterion = nn.CrossEntropyLoss()
         
-        best_val_acc = 0
+        best_val_acc = -1.0
         fold_best_metrics = None
         
         for epoch in range(params['epochs']):
             t_loss, t_met = train_one_epoch(model, train_loader, criterion, optimizer, device)
             v_loss, v_met = validate(model, val_loader, criterion, device)
             
-            if v_met['accuracy'] > best_val_acc:
+            if v_met['accuracy'] >= best_val_acc:
                 best_val_acc = v_met['accuracy']
-                fold_best_metrics = v_met
+                if test_loader:
+                    _, test_met = validate(model, test_loader, criterion, device)
+                    fold_best_metrics = test_met
+                else:
+                    fold_best_metrics = v_met
             
             if (epoch + 1) % 10 == 0 or epoch == 0:
                 print(f"    Epoch {epoch+1}/{params['epochs']} - Loss: {t_loss:.4f}, Acc: {t_met['accuracy']:.4f} | Val Acc: {v_met['accuracy']:.4f}")
         
         all_fold_metrics.append(fold_best_metrics)
-        
-        # Si es LOOCV y hay muchos folds, imprimimos progreso cada 10 folds
-        if data_scenario == 'balanced_loocv' and (fold + 1) % 10 == 0:
-            print(f"  Progreso LOOCV: {fold+1}/{len(splits)} folds completados")
 
-    # Promediar métricas
+    train_time = train_profiler.get_elapsed()
+    train_ram, train_gpu = train_profiler.get_memory_usage()
+
     avg_metrics = {
+        'val_accuracy': best_val_acc,
         'accuracy': np.mean([m['accuracy'] for m in all_fold_metrics]),
         'f1_macro': np.mean([m['f1_macro'] for m in all_fold_metrics]),
-        'auc': np.mean([m['auc'] for m in all_fold_metrics])
+        'auc': np.mean([m['auc'] for m in all_fold_metrics]),
+        'resources': {
+            'prep_time_s': prep_time,
+            'train_time_s': train_time,
+            'ram_gb': max(prep_ram, train_ram),
+            'gpu_mb': max(prep_gpu, train_gpu)
+        }
     }
-    
+
     return avg_metrics
 
-def generate_tables(results):
-    """
-    Genera las 4 tablas solicitadas en formato Markdown.
-    """
-    scenarios = ['unbalanced', 'balanced_loocv', 'balanced_5fold']
+def generate_tables(results, scenarios):
     model_types = ['replica', 'p1', 'p2', 'p3']
+    output = "# Resultados Finales de Experimentos (Análisis Estadístico)\n\n"
     
-    output = "# Resultados Finales de Experimentos\n\n"
+    titles = {
+        'unbalanced': "Dataset Desbalanceado (Hold-out 70/15/15)",
+        'balanced_5fold': "Dataset Balanceado (5-Fold CV)",
+        'balanced_holdout': "Dataset Balanceado (LOSO Hold-out 70/15/15)"
+    }
     
-    # Tablas 1, 2, 3
     for i, scenario in enumerate(scenarios):
-        output += f"## Tabla {i+1}: Escenario {scenario.replace('_', ' ').capitalize()}\n"
-        output += "| Modelo | Accuracy | F1-Score | AUC |\n"
-        output += "| --- | --- | --- | --- |\n"
+        title = titles.get(scenario, f"Escenario {scenario}")
+        output += f"### {title}\n\n"
+        
+        output += "#### Rendimiento de Clasificación (Después)\n"
+        output += "| Modelo | Val. Acc | Test Acc | F1-Score | AUC |\n"
+        output += "| --- | --- | --- | --- | --- |\n"
         for m_type in model_types:
             m = results[m_type][scenario]
-            output += f"| {m_type.upper()} | {m['accuracy']:.4f} | {m['f1_macro']:.4f} | {m['auc']:.4f} |\n"
+            output += f"| {m_type.upper()} | {m['val_accuracy']:.4f} | {m['accuracy']:.4f} | {m['f1_macro']:.4f} | {m['auc']:.4f} |\n"
         output += "\n"
         
-    # Tabla 4: Comparación final (Mejor de cada modelo entre todos los escenarios)
-    output += "## Tabla 4: Comparación Final (Mejor resultado por modelo)\n"
-    output += "| Modelo | Mejor Escenario | Accuracy | F1-Score | AUC |\n"
-    output += "| --- | --- | --- | --- | --- |\n"
-    for m_type in model_types:
-        best_scenario = max(scenarios, key=lambda s: results[m_type][s]['accuracy'])
-        m = results[m_type][best_scenario]
-        output += f"| {m_type.upper()} | {best_scenario} | {m['accuracy']:.4f} | {m['f1_macro']:.4f} | {m['auc']:.4f} |\n"
+        output += "#### Eficiencia de Recursos (Durante)\n"
+        output += "| Modelo | Tiempo Prep (s) | Tiempo Train (s) | RAM (GB) | GPU (MB) |\n"
+        output += "| --- | --- | --- | --- | --- |\n"
+        for m_type in model_types:
+            res = results[m_type][scenario]['resources']
+            output += f"| {m_type.upper()} | {res['prep_time_s']:.2f} | {res['train_time_s']:.2f} | {res['ram_gb']:.2f} | {res['gpu_mb']:.2f} |\n"
+        output += "\n"
         
     return output
 
 if __name__ == "__main__":
     model_types = ['replica', 'p1', 'p2', 'p3']
-    scenarios = ['unbalanced', 'balanced_loocv', 'balanced_5fold']
+    scenarios = ['balanced_5fold', 'balanced_holdout']
     
     params = {
         'lr': 0.001,
@@ -263,8 +314,7 @@ if __name__ == "__main__":
             metrics = run_experiment(m, s, params)
             global_results[m][s] = metrics
             
-    # Generar y guardar reporte
-    report = generate_tables(global_results)
+    report = generate_tables(global_results, scenarios)
     print("\n" + report)
     
     with open(os.path.join(RESULTADOS_DIR, "tablas_finales.md"), "w") as f:
