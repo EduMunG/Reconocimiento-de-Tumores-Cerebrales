@@ -13,4 +13,11 @@
     
     // Establece la receta por defecto para que use 'xelatexmk'.
     "latex-workshop.latex.recipe.default": "xelatexmk",
+    "python-envs.pythonProjects": [
+        {
+            "path": "",
+            "envManager": "ms-python.python:system",
+            "packageManager": "ms-python.python:pip"
+        }
+    ],
 }
